@@ -8,11 +8,15 @@ Created on Sun Apr 28 18:15:32 2019
 
 from discord.ext import commands
 from datetime import datetime as d
+from flask import request
 import random
 import requests
 
+
+
 # New - The Cog class must extend the commands.Cog class
 class Basic(commands.Cog):
+    
     
     def __init__(self, bot):
         self.bot = bot
@@ -93,7 +97,7 @@ class Basic(commands.Cog):
         #content = dict.get('weather')
         temp = float(msg.json().get('main').get('temp')) - 273.15
                    
-        msg = "It's all" + msg.json().get('weather')[0].get('description') +\
+        msg = "It's all " + msg.json().get('weather')[0].get('description') +\
         " today! The current temperatue is " + str(temp) + " degrees celsius."
         #msg = "It's all " + msg + " today!"
         
@@ -106,8 +110,54 @@ class Basic(commands.Cog):
     async def name_command(self, ctx):
         msg = 'My name is Jacky, nice to meet you.'
         await ctx.send(content = msg)
+        
+        
+    @commands.command(
+            name = 'subscribe',
+            description='Subscribes to a twitch streamer'
+            )
+    async def subscribe_command(self, ctx):
+        try:
+            postURI = 'https://api.twitch.tv/helix/webhooks/hub'
+            payload = {"hub.mode":"subscribe",
+           "hub.topic":"https://api.twitch.tv/helix/streams?login=imaqtpie",
+           "hub.callback":"http://localhost/8080",
+           "hub.lease_seconds":"864000"
+           }
+            clientID = {'Client-ID':'1xulrvwog4x8hxk1xaje7k17yructl'}
+            await ctx.send(content = "worked")
+            r = request.post(postURI, headers=clientID, params=payload)
+            await ctx.send(content = "Succesfully subscribed!")
+            await ctx.send(r.json())
+        
+        except:
+            await ctx.send(content = "Something went wrong with subscribing")
+        '''
+    @commands.command(
+            name = 'disconnect',
+            description='disconnects the bot'
+            )
+    async def disconnect_command(self, ctx):
+        Main.disconnect()
 
+    @commands.command(
+            name = 'twitch',
+            description = 'Subscribes to a twitch event'
+            )
+    
+    async def subscribe_command(self, ctx):
+        headers = {'Authorization': 'Bearer {0}'.format(get_twitch_api_token()['access_token'])
+        param_data = { 'hub.mode': 'subscribe',
+                      'hub.topic':'https://api.twitch.tv/helix/streams?user_id={0}'.format('XXXXX'),
+                      'hub.callback': 'http://my-endpoint-server.net/1.0/foobar/twitch/callback',
+                      'hub.lease_seconds': '90',
+                      'hub.secret': 'SECRET SHHH'
+                      }
+        response = requests.post('https://api.twitch.tv/helix/webhooks/hub', params=param_data, headers=headers, verify=True)
 
+    '''
+    
+    
 def setup(bot):
     bot.add_cog(Basic(bot))
     # Adds the Basic commands to the bot
