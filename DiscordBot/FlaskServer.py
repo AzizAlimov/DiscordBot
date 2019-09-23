@@ -56,7 +56,6 @@ def gets():
 def handle_message(message):
     socketio.emit('my response', message)
     
-    
 
 #@app.route('/gets', methods=['GET'])
 #def resultg():

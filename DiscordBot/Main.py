@@ -29,7 +29,6 @@ def get_prefix(client, message):
         
     return commands.when_mentioned_or(*prefixes)(client, message)
 
-client = discord.Client()
 
 bot = commands.Bot(
         command_prefix = get_prefix,

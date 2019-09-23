@@ -11,7 +11,7 @@ from datetime import datetime as d
 from flask import request
 import random
 import requests
-
+import traceback
 
 
 # New - The Cog class must extend the commands.Cog class
@@ -118,6 +118,7 @@ class Basic(commands.Cog):
             )
     async def subscribe_command(self, ctx):
         try:
+            
             postURI = 'https://api.twitch.tv/helix/webhooks/hub'
             payload = {"hub.mode":"subscribe",
            "hub.topic":"https://api.twitch.tv/helix/streams?login=imaqtpie",
@@ -130,8 +131,26 @@ class Basic(commands.Cog):
             await ctx.send(content = "Succesfully subscribed!")
             await ctx.send(r.json())
         
-        except:
-            await ctx.send(content = "Something went wrong with subscribing")
+        except Exception as e:
+            traceback.print_exc()
+            await ctx.send(content = e)
+            
+    @commands.command(
+            name = 'getclientid',
+            description='Gets the client id'
+            )
+    async def getclient_command(self, ctx):
+        try:
+            postURI = 'https://api.twitch.tv/helix/users?login=imaqtpie'
+            clientID = {'Client-ID':'1xulrvwog4x8hxk1xaje7k17yructl'}
+            await ctx.send(content = "checkpoint 1")
+            r = request.get(postURI, headers=clientID)
+            await ctx.send(content = "checkpoint 2")
+            await ctx.send(r.json())
+            
+        except Exception as e:
+            traceback.print_exc()
+            await ctx.send(content = e)
         '''
     @commands.command(
             name = 'disconnect',
