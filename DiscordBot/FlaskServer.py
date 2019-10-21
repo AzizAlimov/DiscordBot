@@ -32,17 +32,15 @@ def main():
 #Starts the server
 def run():
     socketio.run(app, host = 'localhost', port = 8080)
-    #app.run(host="0.0.0.0", port=8080, debug=True, use_reloader=False)
+    
 def keep_alive():
     server = Thread(target=run)
     server.start()
-#    server = Thread(target=run)
-#    server.start()
 
 #POST handler
 @app.route('/posts', methods=['POST'])
 def result():
-    return
+    pass
 
 #Receives the callback from twitch subscription
 @app.route('/gets', methods=['GET'])
@@ -55,8 +53,3 @@ def gets():
 @socketio.on('message')
 def handle_message(message):
     socketio.emit('my response', message)
-    
-
-#@app.route('/gets', methods=['GET'])
-#def resultg():
-

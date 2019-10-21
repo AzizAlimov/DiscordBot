@@ -6,7 +6,6 @@ Created on Sun Dec 16 19:38:23 2018
 @author: azuzialimov
 """
 
-from pprint import pprint
 from discord.ext import commands
 import requests
 import discord
@@ -14,10 +13,12 @@ import FlaskServer
 import socketio
 import datetime
 from cogs import basic
+import json
 
-
-TOKEN = 'NTI0MDU2NTE2NzAyMTA5NzEx.DvinXA.KhdDPSrzsZwErmhyfD4vm2yl0BQ'
-CHANNEL_ID = 524062208209190945
+with open("/Users/azuzialimov/config.json") as config_file:
+    config = json.load(config_file)
+TOKEN = config['token']
+CHANNEL_ID = config['server']
 sio = socketio.AsyncClient()
 
 def get_prefix(client, message):
