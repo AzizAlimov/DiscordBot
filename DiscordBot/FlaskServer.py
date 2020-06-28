@@ -10,11 +10,15 @@ import os
 from flask import Flask, request, abort, render_template
 from threading import Thread
 from flask_socketio import SocketIO, send, emit
+import json
 
 client = []
 
-TWITCH_KEY = 'live_45462101_agarpYIuK3PMBpMSGPaAmM1AhigGT5'
-clientID = '1xulrvwog4x8hxk1xaje7k17yructl'
+with open("../../config.json") as config_file:
+    config = json.load(config_file)
+
+TWITCH_KEY = config['twitch_key']
+clientID = config['clientid']
 
 contentType = 'application/json'
 postURI = 'https://api.twitch.tv/helix/webhooks/hub'

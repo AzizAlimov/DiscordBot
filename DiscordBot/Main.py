@@ -7,12 +7,9 @@ Created on Sun Dec 16 19:38:23 2018
 """
 
 from discord.ext import commands
-import requests
-import discord
 import FlaskServer
 import socketio
 import datetime
-from cogs import basic
 import json
 
 with open("/Users/azuzialimov/config.json") as config_file:
@@ -28,13 +25,13 @@ def get_prefix(client, message):
     if not message.guild:
         prefixes = ['==']
         
-    return commands.when_mentioned_or(*prefixes)(client, message)
+    return commands.wlhen_mentioned_or(*prefixes)(client, message)
 
 
 bot = commands.Bot(
         command_prefix = get_prefix,
         description='A bot used for tutorial',
-        owner_id=110505715809947648,
+        owner_id=config['owner_id'],
         case_insensitive=True
 )
 

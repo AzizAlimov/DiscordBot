@@ -62,7 +62,7 @@ class Basic(commands.Cog):
         
         else:
             await ctx.send(content = f"**{text}**")
-            
+            # Repeats your message back to you
             pass
         
         return
@@ -93,13 +93,10 @@ class Basic(commands.Cog):
     async def weather_command(self, ctx):
     
         msg = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Vancouver&APPID=e6aaca8265d6641552debcd4e62c2e8a')
-        #dict = msg.json()
-        #content = dict.get('weather')
         temp = float(msg.json().get('main').get('temp')) - 273.15
                    
         msg = "It's all " + msg.json().get('weather')[0].get('description') +\
         " today! The current temperatue is " + str(temp) + " degrees celsius."
-        #msg = "It's all " + msg + " today!"
         
         await ctx.send(content = msg)
         
