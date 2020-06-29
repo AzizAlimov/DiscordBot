@@ -7,7 +7,7 @@ Created on Sun Dec 16 19:38:23 2018
 """
 
 from discord.ext import commands
-import FlaskServer
+import app
 import socketio
 import datetime
 import json
